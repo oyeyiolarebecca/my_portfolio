@@ -2,7 +2,8 @@ FROM composer:2 AS composer_deps
 WORKDIR /app
 
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
+# Avoid running Composer scripts here because they require the full app (e.g. `artisan`).
+RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader --no-scripts
 
 FROM node:20-alpine AS frontend_build
 WORKDIR /app
@@ -43,4 +44,3 @@ ENV APP_DEBUG=false
 EXPOSE 10000
 
 CMD ["sh", "docker/start.sh"]
-

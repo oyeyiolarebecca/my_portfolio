@@ -10,6 +10,8 @@ fi
 
 php artisan config:clear || true
 
+php artisan package:discover --ansi || true
+
 php artisan storage:link || true
 
 php artisan migrate --force || true
@@ -19,4 +21,3 @@ php artisan route:cache || true
 php artisan view:cache || true
 
 exec php -S "0.0.0.0:${PORT}" -t public public/index.php
-
