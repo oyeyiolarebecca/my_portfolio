@@ -215,6 +215,39 @@
                     </svg>
                     <div class="absolute inset-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"></div>
                 </div>
+
+                <section id="contact" class="mt-10 w-full max-w-xl">
+                    <h2 class="text-lg font-semibold text-[#1B1B18] dark:text-[#FFFAED]">Contact</h2>
+                    <p class="mt-1 text-sm text-[#706f6c] dark:text-[#A1A09A]">Send a message and I’ll reply by email.</p>
+
+                    <form id="contact-form" class="mt-4 space-y-3" data-contact-to="{{ config('mail.contact_to.address') }}">
+                        <div>
+                            <label class="block text-sm font-medium text-[#1B1B18] dark:text-[#FFFAED]" for="contact-name">Name</label>
+                            <input id="contact-name" name="name" required maxlength="100" class="mt-1 w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-[#1B1B18] shadow-sm outline-none focus:ring-2 focus:ring-black/20 dark:border-white/15 dark:bg-black/20 dark:text-[#FFFAED]" />
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-[#1B1B18] dark:text-[#FFFAED]" for="contact-email">Email</label>
+                            <input id="contact-email" name="email" type="email" required class="mt-1 w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-[#1B1B18] shadow-sm outline-none focus:ring-2 focus:ring-black/20 dark:border-white/15 dark:bg-black/20 dark:text-[#FFFAED]" />
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-[#1B1B18] dark:text-[#FFFAED]" for="contact-subject">Subject (optional)</label>
+                            <input id="contact-subject" name="subject" maxlength="150" class="mt-1 w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-[#1B1B18] shadow-sm outline-none focus:ring-2 focus:ring-black/20 dark:border-white/15 dark:bg-black/20 dark:text-[#FFFAED]" />
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-[#1B1B18] dark:text-[#FFFAED]" for="contact-message">Message</label>
+                            <textarea id="contact-message" name="message" required rows="5" class="mt-1 w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-[#1B1B18] shadow-sm outline-none focus:ring-2 focus:ring-black/20 dark:border-white/15 dark:bg-black/20 dark:text-[#FFFAED]"></textarea>
+                        </div>
+
+                        <p id="contact-form-status" class="hidden text-sm" aria-live="polite"></p>
+
+                        <button id="contact-form-submit" type="submit" class="inline-flex items-center justify-center rounded-md bg-[#1B1B18] px-4 py-2 text-sm font-semibold text-[#FFFAED] hover:bg-black/80 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-[#FF750F] dark:text-black dark:hover:bg-[#ff750f]/90">
+                            Send message
+                        </button>
+                    </form>
+                </section>
             </main>
         </div>
 

@@ -1,5 +1,15 @@
 <?php
 
+$splitMailers = function (string $value, string $fallback): array {
+    $mailers = array_values(array_filter(array_map('trim', explode(',', $value)), fn ($mailer) => $mailer !== ''));
+
+    if ($mailers === []) {
+        $mailers = array_values(array_filter(array_map('trim', explode(',', $fallback)), fn ($mailer) => $mailer !== ''));
+    }
+
+    return $mailers;
+};
+
 return [
 
     /*
@@ -81,20 +91,14 @@ return [
 
         'failover' => [
             'transport' => 'failover',
-            'mailers' => [
-                'smtp',
-                'log',
-            ],
-            'retry_after' => 60,
+            'mailers' => $splitMailers(env('MAIL_FAILOVER_MAILERS', 'smtp,log'), 'smtp,log'),
+            'retry_after' => (int) env('MAIL_FAILOVER_RETRY_AFTER', 60),
         ],
 
         'roundrobin' => [
             'transport' => 'roundrobin',
-            'mailers' => [
-                'ses',
-                'postmark',
-            ],
-            'retry_after' => 60,
+            'mailers' => $splitMailers(env('MAIL_ROUNDROBIN_MAILERS', 'ses,postmark'), 'ses,postmark'),
+            'retry_after' => (int) env('MAIL_ROUNDROBIN_RETRY_AFTER', 60),
         ],
 
     ],
@@ -113,6 +117,11 @@ return [
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
+    ],
+
+    'contact_to' => [
+        'address' => env('CONTACT_TO_ADDRESS', env('MAIL_FROM_ADDRESS', 'hello@example.com')),
+        'name' => env('CONTACT_TO_NAME', env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel'))),
     ],
 
 ];

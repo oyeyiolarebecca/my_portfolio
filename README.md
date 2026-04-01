@@ -21,6 +21,117 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Contact Form Email (So You Receive Messages)
+
+When someone submits the contact form (`POST /api/contact`), the app:
+
+- Saves the message to the database (`contact_messages` table)
+- Sends an email notification to you (the portfolio owner)
+
+### 1) Set where the email should go
+
+In your `.env`, set:
+
+- `CONTACT_TO_ADDRESS="your-email@example.com"`
+- `CONTACT_TO_NAME="Rebecca"` (optional)
+
+### 2) Configure a real mailer (otherwise nothing is delivered)
+
+By default the app uses `MAIL_MAILER=log`, which writes emails to logs instead of sending them.
+
+To actually receive emails, pick a mailer and configure it in `.env`.
+
+#### Gmail (SMTP)
+
+1) Turn on 2‑Step Verification on your Google account, then create an **App Password**.
+2) Set these in `.env`:
+
+```env
+MAIL_MAILER=smtp
+MAIL_URL="smtp://YOUR_GMAIL_ADDRESS:YOUR_APP_PASSWORD@smtp.gmail.com:587?encryption=tls"
+MAIL_FROM_ADDRESS="YOUR_GMAIL_ADDRESS"
+MAIL_FROM_NAME="Rebecca"
+```
+
+Note: If your password has special characters, URL-encode it (or use `MAIL_USERNAME` / `MAIL_PASSWORD` instead of `MAIL_URL`).
+
+#### SMTP (Any Provider)
+
+Set your SMTP credentials in `.env`, for example:
+
+```env
+MAIL_MAILER=smtp
+MAIL_URL=null
+MAIL_HOST=smtp.your-provider.com
+MAIL_PORT=587
+MAIL_USERNAME=your_smtp_username
+MAIL_PASSWORD=your_smtp_password
+MAIL_FROM_ADDRESS="no-reply@your-domain.com"
+MAIL_FROM_NAME="Rebecca"
+```
+
+#### Resend
+
+```env
+MAIL_MAILER=resend
+RESEND_API_KEY=your_resend_api_key
+MAIL_FROM_ADDRESS="no-reply@your-domain.com"
+MAIL_FROM_NAME="Rebecca"
+```
+
+#### Postmark (requires an extra package)
+
+Install:
+
+```bash
+composer require symfony/postmark-mailer
+```
+
+Then set:
+
+```env
+MAIL_MAILER=postmark
+POSTMARK_API_KEY=your_postmark_api_key
+```
+
+#### Mailgun (requires an extra package)
+
+Install:
+
+```bash
+composer require symfony/mailgun-mailer
+```
+
+Then configure via `MAIL_URL` (recommended) according to your Mailgun SMTP/API settings.
+
+#### Amazon SES
+
+```env
+MAIL_MAILER=ses
+AWS_ACCESS_KEY_ID=...
+AWS_SECRET_ACCESS_KEY=...
+AWS_DEFAULT_REGION=us-east-1
+```
+
+#### Provider diversity (failover / round robin)
+
+You can mix providers without code changes:
+
+```env
+MAIL_MAILER=failover
+MAIL_FAILOVER_MAILERS=smtp,resend,log
+```
+
+### 3) Quick local check (no SMTP)
+
+If you keep `MAIL_MAILER=log`, you can confirm the email is being “sent” by checking:
+
+- `storage/logs/laravel.log`
+
+## Deployment
+
+See `DEPLOYMENT.md`.
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
