@@ -24,7 +24,6 @@ class ProjectController extends Controller
             'tech_stack'  => 'required|string',
             'live_url'    => 'nullable|url',
             'github_url'  => 'nullable|url',
-            // Can be a full URL (e.g. CDN), or a local path like "/storage/projects/.."
             'image_url'   => 'nullable|string|max:2048',
             'image'       => 'nullable|file|max:5120|mimetypes:image/jpeg,image/png,image/webp,image/gif',
         ]);
@@ -48,7 +47,6 @@ class ProjectController extends Controller
             'tech_stack'  => 'required|string',
             'live_url'    => 'nullable|url',
             'github_url'  => 'nullable|url',
-            // Can be a full URL (e.g. CDN), or a local path like "/storage/projects/.."
             'image_url'   => 'nullable|string|max:2048',
             'image'       => 'nullable|file|max:5120|mimetypes:image/jpeg,image/png,image/webp,image/gif',
         ]);
