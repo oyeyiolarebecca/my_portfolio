@@ -24,7 +24,7 @@ services:
       - key: SEED_ON_STARTUP
         value: "true"
       - key: CORS_ALLOWED_ORIGINS
-        sync: false
+        value: https://beccaweb.netlify.app
       - key: CONTACT_TO_ADDRESS
         sync: false
       - key: CONTACT_TO_NAME
