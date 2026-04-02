@@ -19,6 +19,21 @@ if [ -z "${APP_KEY:-}" ]; then
   echo "WARN: APP_KEY was not set; generated an ephemeral APP_KEY for this boot." 1>&2
 fi
 
+# Defaults that work well on ephemeral filesystems without a real DB service.
+# You can always override these in your platform environment variables.
+: "${SESSION_DRIVER:=file}"
+: "${CACHE_STORE:=file}"
+: "${QUEUE_CONNECTION:=sync}"
+export SESSION_DRIVER CACHE_STORE QUEUE_CONNECTION
+
+mkdir -p \
+  storage/framework/cache/data \
+  storage/framework/sessions \
+  storage/framework/views \
+  bootstrap/cache
+
+chmod -R a+rwX storage bootstrap/cache || true
+
 if [ "${DB_CONNECTION:-}" = "sqlite" ]; then
   if [ -z "${DB_DATABASE:-}" ]; then
     DB_DATABASE="/app/storage/app/database.sqlite"
@@ -34,7 +49,9 @@ php artisan config:clear || true
 
 php artisan package:discover --ansi || true
 
-php artisan storage:link || true
+if [ ! -e public/storage ]; then
+  php artisan storage:link || true
+fi
 
 if is_truthy "${MIGRATE_ON_STARTUP:-true}"; then
   php artisan migrate --force

@@ -31,3 +31,11 @@ services:
         sync: false
       - key: MAIL_MAILER
         value: log
+      # Avoid requiring DB-backed cache/sessions/queues (and their tables) on a
+      # simple Render demo deploy.
+      - key: SESSION_DRIVER
+        value: file
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync

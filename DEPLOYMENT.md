@@ -19,6 +19,7 @@ Notes:
 - Don’t rely on Render’s local filesystem for long-term image uploads unless you add a persistent disk; prefer S3/Cloudinary.
 - Render health checks hit `GET /up` (returns `200 ok`).
 - If you deploy before setting `APP_KEY`, the container will generate a temporary one so it can boot; set a persistent `APP_KEY` for stable encryption/sessions.
+- Render deploys default to `SESSION_DRIVER=file`, `CACHE_STORE=file`, and `QUEUE_CONNECTION=sync` (avoids missing database tables for sessions/cache/jobs).
 
 ## Vercel (Frontend)
 
