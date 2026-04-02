@@ -17,6 +17,8 @@ Notes:
 - The container runs migrations on startup by default (`MIGRATE_ON_STARTUP=true`), and you can disable it if needed.
 - `storage/app/public` is linked to `public/storage` on startup.
 - Don’t rely on Render’s local filesystem for long-term image uploads unless you add a persistent disk; prefer S3/Cloudinary.
+- Render health checks hit `GET /up` (returns `200 ok`).
+- If you deploy before setting `APP_KEY`, the container will generate a temporary one so it can boot; set a persistent `APP_KEY` for stable encryption/sessions.
 
 ## Vercel (Frontend)
 

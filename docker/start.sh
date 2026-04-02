@@ -11,8 +11,12 @@ is_truthy() {
 }
 
 if [ -z "${APP_KEY:-}" ]; then
-  echo "ERROR: APP_KEY is not set. Set it in Render env vars." 1>&2
-  exit 1
+  # Render/Railway often tries to start the service before you've set env vars.
+  # Generate an ephemeral key so the app can boot; for stable sessions/encryption,
+  # set a persistent APP_KEY in the platform env vars.
+  APP_KEY="base64:$(php -r 'echo base64_encode(random_bytes(32));')"
+  export APP_KEY
+  echo "WARN: APP_KEY was not set; generated an ephemeral APP_KEY for this boot." 1>&2
 fi
 
 if [ "${DB_CONNECTION:-}" = "sqlite" ]; then
